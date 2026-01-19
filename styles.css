@@ -1,0 +1,6 @@
+.title {
+    color: green;
+}
+table { border-collapse: collapse; width: 90%; margin-bottom: 12px;}
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top;}
+th { background: #f4f4f4;}
