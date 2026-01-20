@@ -1,6 +1,6 @@
 const Dude_Types = ["bard","basic","cleric","frankendude","ghost","knight","medic","necromancer","ninja","paladin","samurai","spartan","vampire","viking","warlock","wizard","zombie"]
-const relic_types = ["tower_shield","unit_tattoo","death_rattle","r_aspis","dudeplicator","dog_tag","r_dory","motivational_poster","hidden_daggers","living_will","r_guitar_pick","pumpkin_latte","r_emergency_ring","r_mana_collector","r_sequined_vest","ancient_sword","lokis_arm","parry_buckler","loaded_dice","captains_hat","r_ion_storm","loyalty_card","r_tuning_fork","r_dancing_shoes","wolfskin_cloak","fairy_ring","mobius_strip","r_valkyrie_amulet","caged_tiger","winged_shoes","odin_statue","r_cosmic_geode","r_heart_boxers","battle_standard","r_snapback_sneakers","helmet","black_sheep","half_full_glass","r_requiem","smelling_salts","ab_roller","r_bass_drum","r_overcharged_amp","lieutenant_sigil","warhorn","r_jazz_flute","healthcare","caboose","bean_burrito","leather_bracer","r_metronome","grog","r_ring_of_shielding","keep_calm_poster","bonfire","bloody_talisman","runic_tattoo","r_false_face","liquid_courage","purple_heart","shield_spikes","naginata","bamboo_practice","tosei_gusoku","katana_sharpener","r_bokken","wakizashi","hachimaki","gravestone","flaming_skull","necronomicon","sewing_kit","r_memento_mori","r_marrow_scooper","bony_backhand","living_hand","ritual_dagger","knucklebones","bone_axe","rotting_steak","frenzy_stone","calcium_pills","false_fangs"];
-const Enemy_Types = ["bee","big_bee","duck_sized_horse","canada_goose","duck","feral_hog","goat","goose","gorilla","gorilla_silverback","honey_badger","horse","horse_sized_duck","horse_stallion","horse_unicorn","mallard_duck","polar_bear","ram","rat_king","toddler","wolf","wolf_alpha"];
+const Relic_Types = ["ab_roller","ancient_sword","bamboo_practice","battle_standard","bean_burrito","black_sheep","bloody_talisman","bone_axe","bonfire","bony_backhand","caboose","caged_tiger","calcium_pills","captains_hat","death_rattle","dog_tag","dudeplicator","fairy_ring","false_fangs","flaming_skull","frenzy_stone","gravestone","grog","hachimaki","half_full_glass","healthcare","helmet","hidden_daggers","katana_sharpener","keep_calm_poster","knucklebones","leather_bracer","lieutenant_sigil","liquid_courage","living_hand","living_will","loaded_dice","lokis_arm","loyalty_card","mobius_strip","motivational_poster","naginata","necronomicon","odin_statue","parry_buckler","pumpkin_latte","purple_heart","r_aspis","r_bass_drum","r_bokken","r_cosmic_geode","r_dancing_shoes","r_dory","r_emergency_ring","r_false_face","r_guitar_pick","r_heart_boxers","r_ion_storm","r_jazz_flute","r_mana_collector","r_marrow_scooper","r_memento_mori","r_metronome","r_overcharged_amp","r_requiem","r_ring_of_shielding","r_sequined_vest","r_snapback_sneakers","r_tuning_fork","r_valkyrie_amulet","ritual_dagger","rotting_steak","runic_tattoo","sewing_kit","shield_spikes","smelling_salts","tosei_gusoku","tower_shield","unit_tattoo","wakizashi","warhorn","winged_shoes","wolfskin_cloak"];
+const Enemy_Types = ["bee","big_bee","duck_sized_horse","canada_goose","duck","feral_hog","goat","goose","gorilla","gorilla_silverback","honey_badger","horse","horse_sized_duck","horse_stallion","horse_unicorn","mallard_duck","polar_bear","ram","rat","rat_king","toddler","wolf","wolf_alpha"];
 
 
 
@@ -20,7 +20,7 @@ function main(){
         option.innerText = Dude_Types[d];
         document.getElementById("add-dude-type").appendChild(option);
     }
-
+    document.getElementById("save-file").addEventListener("focus", () => document.getElementById("save-file").select());
 }//main
 
 function copy(){
@@ -31,15 +31,19 @@ function updateString(){
     document.getElementById("save-file").value = JSON.stringify(saveOBJ)
 }//updateString
 
-
+function updateCash(){
+    saveOBJ.cash = document.getElementById("cash").value;
+}
 
 function readSave(){
 
     saveString = document.getElementById("save-file").value
     saveOBJ = JSON.parse(saveString);
 
+    document.getElementById("cash").value = saveOBJ.cash;
     loadDudes();
     loadMatches();
+    loadRelics();
 
     let table = document.createElement("table");
     table.style.border = '1px solid black';
@@ -48,7 +52,7 @@ function readSave(){
     tr.innerHTML ="";
 
 
-    showTable(saveOBJ, table);
+    //showTable(saveOBJ, table);
     document.getElementById("file-content").appendChild(table);
 }//readSave
 
@@ -167,6 +171,12 @@ function removeDude(obj, dude, num){
     }
     showDudes();
 }//removeDude
+
+function clearDudeKnockouts(){
+    for(let d in saveOBJ.dudes){
+        saveOBJ.dudes[d].knockout_rounds = 0;
+    }
+}
 
 function countDudes(){
     let doods={};
@@ -332,15 +342,73 @@ function showMatch(){
         enemies.appendChild(e_num);
         enemies.appendChild(document.createElement("br"));
     }
-
-
-    mInfo+=("Enemies:\n");
-    for(e in match.enemies){
-        mInfo+=("   " + e + " - "+ match.enemies[e] + "\n");
-    }
-    
-    document.getElementById("match-info").innerText = mInfo;
     
 }//showMatchesInput
+
+
+/*
+
+        Relic Functions
+
+*/
+
+const Relic_Select = document.createElement("select");
+for(r in Relic_Types){
+    let opt_r = document.createElement("option")
+    opt_r.innerText = Relic_Types[r];
+    Relic_Select.appendChild(opt_r);
+}
+
+
+//
+//
+///
+//
+//  need to modify relic order list?
+//
+//
+//
+function loadRelics(){
+    let relicDiv = document.getElementById("relic-list")
+    relicDiv.innerHTML = "Relic List "
+    const Relic_Select = document.createElement("select");
+    Relic_Select.id = "relic-select"
+    for(let r in Relic_Types){
+        let opt_r = document.createElement("option")
+        opt_r.innerText = Relic_Types[r];
+        if(!(Relic_Types[r] in saveOBJ.relics_owned)){
+            Relic_Select.appendChild(opt_r);
+        }
+    }
+    relicDiv.appendChild(Relic_Select);
+
+
+    let relicAdd = document.createElement("button");
+    relicAdd.innerText = "Add";
+    relicAdd.onclick = function () {
+        saveOBJ.relics_owned[document.getElementById("relic-select").value] = 1;
+        saveOBJ.relic_order.push(document.getElementById("relic-select").value)
+
+        loadRelics();
+    }
+    relicDiv.appendChild(relicAdd);
+    relicDiv.appendChild(document.createElement("br"));
+
+    for(let r in saveOBJ.relics_owned){
+        let relic_element = document.createElement("button");
+        relic_element.innerText = r;
+        relic_element.onclick = function () {
+            delete saveOBJ.relics_owned[this.innerText];
+            console.log(this.innerText)
+            
+            saveOBJ.relic_order.splice(saveOBJ.relic_order.indexOf(this.innerText),1);
+            loadRelics();
+        }
+        relicDiv.appendChild(relic_element);
+        relicDiv.appendChild(document.createElement("br"))
+    }
+
+
+}
 
 
