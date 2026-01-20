@@ -32,7 +32,7 @@ function updateString(){
 }//updateString
 
 function updateCash(){
-    saveOBJ.cash = document.getElementById("cash").value;
+    saveOBJ.cash = Number(document.getElementById("cash").value);
 }
 
 function readSave(){
