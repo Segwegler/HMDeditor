@@ -320,7 +320,7 @@ function showMatch(){
     enemies.appendChild(matchRemoveEnemy);
     enemies.appendChild(document.createElement("br"))
 
-    for(e in match.enemies){
+    for(let e in match.enemies){
         
         let e_select = Enemy_Types_Select.cloneNode(true);
         e_select.id = "match-enemies-"+e+"-select";
@@ -337,6 +337,10 @@ function showMatch(){
         e_num.id = "match-enemies-"+e+"-select";
         e_num.type = "number";
         e_num.value = match.enemies[e]
+        e_num.onchange = function (){
+            console.log("match: ",mID, " ", e, this.value)
+            saveOBJ.matchups[mID].enemies[e] = Number(this.value)
+        }
         
         enemies.appendChild(e_select);
         enemies.appendChild(e_num);
@@ -344,6 +348,11 @@ function showMatch(){
     }
     
 }//showMatchesInput
+
+function updateChallenge(){
+    saveOBJ.matchups[document.getElementById("match-select").value].challenge = document.getElementById("match-challenge").checked
+}
+
 
 
 /*
@@ -353,7 +362,7 @@ function showMatch(){
 */
 
 const Relic_Select = document.createElement("select");
-for(r in Relic_Types){
+for(let r in Relic_Types){
     let opt_r = document.createElement("option")
     opt_r.innerText = Relic_Types[r];
     Relic_Select.appendChild(opt_r);
