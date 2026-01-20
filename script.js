@@ -145,6 +145,8 @@ function addDude(dude, num){
     {
         let dudeID = newDudeID();
         saveOBJ.dudes[dudeID] = {type:dude, knockout_rounds: 0, hp_percent: 1};
+        if(!saveOBJ.flyers_posted.includes(dude)) saveOBJ.flyers_posted.push(dude);
+        
     }
     showDudes();
 }//addDude
