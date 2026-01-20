@@ -1,8 +1,8 @@
-const Dude_Types = ["bard","basic","cleric","frankendude","ghost","knight","medic","necromancer","ninja","paladin","samurai","spartan","vampire","viking","warlock","wizard","zombie"]
-const Relic_Types = ["ab_roller","ancient_sword","bamboo_practice","battle_standard","bean_burrito","black_sheep","bloody_talisman","bone_axe","bonfire","bony_backhand","caboose","caged_tiger","calcium_pills","captains_hat","death_rattle","dog_tag","dudeplicator","fairy_ring","false_fangs","flaming_skull","frenzy_stone","gravestone","grog","hachimaki","half_full_glass","healthcare","helmet","hidden_daggers","katana_sharpener","keep_calm_poster","knucklebones","leather_bracer","lieutenant_sigil","liquid_courage","living_hand","living_will","loaded_dice","lokis_arm","loyalty_card","mobius_strip","motivational_poster","naginata","necronomicon","odin_statue","parry_buckler","pumpkin_latte","purple_heart","r_aspis","r_bass_drum","r_bokken","r_cosmic_geode","r_dancing_shoes","r_dory","r_emergency_ring","r_false_face","r_guitar_pick","r_heart_boxers","r_ion_storm","r_jazz_flute","r_mana_collector","r_marrow_scooper","r_memento_mori","r_metronome","r_overcharged_amp","r_requiem","r_ring_of_shielding","r_sequined_vest","r_snapback_sneakers","r_tuning_fork","r_valkyrie_amulet","ritual_dagger","rotting_steak","runic_tattoo","sewing_kit","shield_spikes","smelling_salts","tosei_gusoku","tower_shield","unit_tattoo","wakizashi","warhorn","winged_shoes","wolfskin_cloak"];
-const Enemy_Types = ["bee","big_bee","duck_sized_horse","canada_goose","duck","feral_hog","goat","goose","gorilla","gorilla_silverback","honey_badger","horse","horse_sized_duck","horse_stallion","horse_unicorn","mallard_duck","polar_bear","ram","rat","rat_king","toddler","wolf","wolf_alpha"];
+let Dude_Types = ["bard","basic","cleric","frankendude","ghost","knight","medic","necromancer","ninja","paladin","samurai","spartan","vampire","viking","warlock","wizard","zombie"]
+let Relic_Types = ["ab_roller","ancient_sword","assassin_song","bamboo_practice","bat_wings","battle_standard","bean_burrito","black_sheep","blood_bag","blood_siphon","bloody_talisman","bone_axe","bone_broth","bonfire","bony_backhand","book_of_shadows","booming_voice","brain_in_a_jar","caboose","caged_tiger","calcium_pills","captains_hat","combat_boots","combat_radio","copper_bolts","death_mask","death_rattle","dog_tag","dudeplicator","epinephrine","expired_skin_cream","explosive_innards","fairy_ring","false_fangs","flaming_skull","frenzy_stone","frilled_shoulderpads","gold_star","gravestone","grog","hachimaki","half_full_glass","hand_sanitizer","healthcare","helmet","hidden_daggers","hollow_fangs","imposing_podium","katana_sharpener","keep_calm_poster","knucklebones","leaky_heart_valve","leather_bracer","lieutenant_sigil","liquid_courage","living_hand","living_will","loaded_dice","lokis_arm","loyalty_card","medical_bag","mobius_strip","morphine","motivational_poster","naginata","necronomicon","ninja_stars","odin_statue","organ_bucket","organ_donor_list","parry_buckler","pocket_shuriken","pumpkin_latte","purple_heart","r_aspis","r_bass_drum","r_battle_hymn","r_bokken","r_book_of_life","r_cosmic_geode","r_dancing_shoes","r_dark_wand","r_dory","r_emergency_ring","r_evil_quill","r_false_face","r_golden_shield","r_guitar_pick","r_hammer_of_smiting","r_heart_boxers","r_heroic_medal","r_ion_storm","r_jaw_implant","r_jazz_flute","r_mana_collector","r_marrow_scooper","r_medallion_of_vengeance","r_memento_mori","r_metronome","r_old_jacket","r_old_tooth","r_overcharged_amp","r_oversized_pauldrons","r_pocket_obelisk","r_requiem","r_ring_of_shielding","r_ruby_scepter","r_sequined_vest","r_shadowy_funnel","r_snapback_sneakers","r_tuning_fork","r_uncanny_ledger","r_valkyrie_amulet","r_velvet_robe","r_void_amethyst","ritual_dagger","rotting_steak","rubber_glove","runic_tattoo","sewing_kit","shadow_dagger","shadow_skin","shield_spikes","smelling_salts","smoke_bomb","soul_reliquary","talking_head","tattered_shoes","tosei_gusoku","tourniquet","tower_shield","turbo_team","unit_tattoo","venomous_lipstick","wakizashi","warhorn","willing_flesh","winged_shoes","wolfskin_cloak"];
+let Enemy_Types = ["bee","big_bee","duck_sized_horse","canada_goose","duck","feral_hog","goat","goose","gorilla","gorilla_silverback","honey_badger","horse","horse_sized_duck","horse_stallion","horse_unicorn","mallard_duck","polar_bear","ram","rat","rat_king","toddler","wolf","wolf_alpha"];
 
-
+Relic_Types = Relic_Types.sort();
 
 
 
@@ -395,8 +395,10 @@ function loadRelics(){
     let relicAdd = document.createElement("button");
     relicAdd.innerText = "Add";
     relicAdd.onclick = function () {
-        saveOBJ.relics_owned[document.getElementById("relic-select").value] = 1;
-        saveOBJ.relic_order.push(document.getElementById("relic-select").value)
+        if(document.getElementById("relic-select").value){
+            saveOBJ.relics_owned[document.getElementById("relic-select").value] = 1;
+            saveOBJ.relic_order.push(document.getElementById("relic-select").value)
+        }
 
         loadRelics();
     }
