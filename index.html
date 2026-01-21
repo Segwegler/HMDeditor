@@ -35,8 +35,8 @@
         <div id="dude-list"></div>
        
         <br />
-
-        <label for="match-select">setup matche: </label>
+        Global Week:<input type="number" id="global-week" onchange="updateGlobalWeek()">
+        <label for="match-select">setup match: </label>
         <select name="match-select" id="match-select" onchange="showMatch()">
         </select>
         <button onclick="addMatchInput()">add</button>
